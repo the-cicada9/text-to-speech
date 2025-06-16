@@ -25,7 +25,7 @@ const SpeechToText: React.FC = () => {
 
     if (SpeechRecognition) {
       const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
+      recognition.lang = 'es-ES';
       recognition.interimResults = true;
       recognition.continuous = true;
 

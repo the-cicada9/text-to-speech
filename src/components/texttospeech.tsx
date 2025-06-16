@@ -73,13 +73,11 @@ const TextToSpeech = () => {
   const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(null);
 
   const result = detectLanguage(text);  // Detect the language
-  console.log(result);
 
   useEffect(() => {
     window.speechSynthesis.cancel(); // Stop any ongoing speech on page load
     const loadVoices = () => {
       const allVoices = window.speechSynthesis.getVoices();
-      console.log(allVoices , ">>>allvoices"); // Log all available voices
       
       setVoices(allVoices);
       if (allVoices.length > 0) setSelectedVoice(allVoices[4]);
@@ -101,9 +99,9 @@ const TextToSpeech = () => {
       const newUtterance = new SpeechSynthesisUtterance(text);
 
       // Determine the language to speak based on detected language
-      let languageToSpeak = 'en';  // Default to English
+      let languageToSpeak = 'en';  
       if (result !== 'Unknown' && result !== 'und') {
-        languageToSpeak = result; // Set to detected language
+        languageToSpeak = result;
       }
       console.log(`Detected language: ${languageToSpeak}`);
 
@@ -151,7 +149,7 @@ const TextToSpeech = () => {
           {isSpeaking && !isPaused ? <Pause size={20} /> : <Play size={20} />}
         </button>
       </div>
-      {/* <div className="flex flex-col sm:flex-row gap-4 items-center">
+      <div className="flex flex-col sm:flex-row gap-4 items-center">
         <label className="text-sm font-medium">Voice:</label>
         <select
           className="border p-2 rounded flex-1"
@@ -167,7 +165,7 @@ const TextToSpeech = () => {
             </option>
           ))}
         </select>
-      </div> */}
+      </div> 
       <div className="">
         {text}
       </div>
