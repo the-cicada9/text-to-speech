@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Play, Pause } from 'lucide-react';
-import { detectLanguage } from '@/utilites/langDetection'; // Ensure detectLanguage is imported
+import { detectLanguage } from '@/utilites/langDetection'; 
 
 const sherlockExcerpt = ` To Sherlock Holmes she is always the woman. I have seldom heard him
      mention her under any other name. In his eyes she eclipses and
@@ -44,9 +44,28 @@ const sherlockExcerpt = ` To Sherlock Holmes she is always the woman. I have sel
      with all the readers of the daily press, I knew little of my former
      friend and companion.`; // Use full Sherlock text here
 
+const sherlockExcerptSpanish = `Para Sherlock Holmes, ella es siempre la mujer. Rara vez lo he oído referirse a ella con otro nombre. 
+A sus ojos, eclipsa y predomina sobre todo su sexo. No es que sintiera por Irene Adler una emoción parecida al amor. Todas las emociones, 
+y especialmente esa, eran aborrecibles para su mente fría, precisa, pero admirablemente equilibrada. Era, según creo, la máquina de razonar 
+y observar más perfecta que el mundo haya visto, pero como amante se habría colocado en una posición falsa. Nunca hablaba de las pasiones 
+más suaves, salvo con burla y desprecio. Eran cosas admirables para el observador—excelentes para arrancar el velo de los motivos y acciones 
+de los hombres. Pero para el razonador entrenado, admitir tales intrusiones en su propio temperamento delicado y finamente ajustado era introducir 
+un factor perturbador que podía poner en duda todos sus resultados mentales. Un grano de arena en un instrumento sensible, o una grieta en una de 
+sus propias lentes de gran aumento, no serían más perturbadores que una fuerte emoción en una naturaleza como la suya. Y sin embargo, para él solo 
+hubo una mujer, y esa mujer fue la difunta Irene Adler, de memoria dudosa y cuestionable.
 
+Últimamente había visto poco a Holmes. Mi matrimonio nos había distanciado. Mi propia felicidad completa y los intereses centrados en
+el hogar que surgen en torno al hombre que por primera vez se ve dueño de su propia casa, eran suficientes para absorber toda mi 
+atención, mientras que Holmes, quien aborrecía toda forma de sociedad con toda su alma bohemia, permanecía en nuestra residencia 
+de Baker Street, sepultado entre sus viejos libros, y alternando semana a semana entre la cocaína y la ambición, entre la somnolencia 
+de la droga y la energía feroz de su aguda naturaleza. Seguía, como siempre, profundamente atraído por el estudio del crimen, y 
+ocupaba sus inmensas facultades y extraordinarios poderes de observación en seguir aquellas pistas y resolver aquellos misterios 
+que habían sido abandonados como desesperados por la policía oficial. De vez en cuando oía algún vago relato de sus actividades: 
+de su llamado a Odessa en el caso del asesinato Trepoff, de su esclarecimiento de la singular tragedia de los hermanos Atkinson 
+en Trincomalee, y finalmente de la misión que había cumplido con tanta delicadeza y éxito para la familia reinante de Holanda. 
+Más allá de estas señales de su actividad, que yo compartía con todos los lectores de la prensa diaria, sabía poco de mi antiguo amigo y compañero.`
 const TextToSpeech = () => {
-  const [text, setText] = useState(sherlockExcerpt.trim());
+  const [text, setText] = useState(sherlockExcerptSpanish.trim());
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -60,8 +79,10 @@ const TextToSpeech = () => {
     window.speechSynthesis.cancel(); // Stop any ongoing speech on page load
     const loadVoices = () => {
       const allVoices = window.speechSynthesis.getVoices();
+      console.log(allVoices , ">>>allvoices"); // Log all available voices
+      
       setVoices(allVoices);
-      if (allVoices.length > 0) setSelectedVoice(allVoices[0]);
+      if (allVoices.length > 0) setSelectedVoice(allVoices[4]);
     };
 
     if (typeof window !== 'undefined') {
@@ -71,8 +92,10 @@ const TextToSpeech = () => {
         window.speechSynthesis.onvoiceschanged = loadVoices;
       }
     }
-  }, []);
+  }, [result]);
 
+  console.log(selectedVoice, ">>>selectedVoice");
+  
   const handleTogglePlayPause = () => {
     if (!isSpeaking && !isPaused) {
       const newUtterance = new SpeechSynthesisUtterance(text);
@@ -82,6 +105,7 @@ const TextToSpeech = () => {
       if (result !== 'Unknown' && result !== 'und') {
         languageToSpeak = result; // Set to detected language
       }
+      console.log(`Detected language: ${languageToSpeak}`);
 
       // Find the appropriate voice for the language
       const selectedVoiceForLang = voices.find((voice) => voice.lang.startsWith(languageToSpeak));

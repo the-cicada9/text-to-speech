@@ -44,9 +44,11 @@ export default function IndexPage() {
             <GithubIcon size={20} />
             GitHub
           </Link>
-          <Link href={siteConfig.navItems[3].href}>Text to Speech</Link>
+          <Link className="border-[1px] p-3 rounded-[30px] text-white" href={siteConfig.navItems[3].href}>Text to Speech</Link>
         </div>
-
+        <div className="">
+          <Link className="border-[1px] p-3 rounded-[30px] text-white" href={siteConfig.navItems[2].href}>Speech to Text</Link>
+        </div>        
         <div className="mt-8">
           <Snippet hideCopyButton hideSymbol variant="bordered">
             <span>

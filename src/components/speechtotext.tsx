@@ -72,11 +72,11 @@ const SpeechToText: React.FC = () => {
         <button
           onClick={handleToggleListening}
           className={`p-2 rounded-full text-white transition duration-200 ${
-            isListening ? 'bg-red-500 hover:bg-red-600' : 'bg-green-600 hover:bg-green-700'
+            isListening ?  'bg-green-600 hover:bg-green-700' : 'bg-red-500 hover:bg-red-600'
           }`}
           title={isListening ? 'Stop Listening' : 'Start Listening'}
         >
-          {isListening ? <MicOff size={20} /> : <Mic size={20} />}
+          {isListening ? <Mic size={20} /> : <MicOff size={20} />}
         </button>
       </div>
 
